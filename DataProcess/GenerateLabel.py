@@ -5,7 +5,7 @@ import csv
 import numpy as np
 
 # 读取labels-test.csv文件
-f = open("Data/labels-test.csv", 'r', encoding='gbk')
+f = open("./DataProcess/Data/labels-test.csv", 'r', encoding='gbk')
 reader = csv.reader(f)
 data = []
 sample_num = 19  # 19种材质（光滑木板、胶合板等）
@@ -21,7 +21,7 @@ for i in range(sample_num):  # 对于每种材质
 # print(label_dict['Rubber'])
 
 # 根据label_dict字典及滑动数据记录的材质，为每条滑动数据添加形容词取值（标签）
-path = "./Data/npydata12"
+path = "./DataProcess/Data/npydata12"
 materials = os.listdir(path)
 dataset = {}  # 按照每种材质的类别存储文件和标签的对应关系
 # 记录数据集中的每条滑动数据
@@ -31,16 +31,17 @@ for material in materials:  # 获取当前数据对应的材质
     data = [[] for _ in range(len(files))]
     for i, file in enumerate(files):
         data[i].append(file)  # 每行数据第一个元素为文件名
-        for k in label_dict[material]:  # 根据材质添加形容词取值情况
+        # for k in label_dict[material]:# 根据材质添加形容词取值情况
+        for k in label_dict.get(material, []):  
             data[i].append(k)
     dataset[material] = data
 print(dataset)  # 最终形式为 材质类别：数据文件名+对应的形容词标签
 
 save_data = np.array(dataset)
-np.save("Data/datalabel12", save_data)
+np.save("./DataProcess/Data/datalabel12", save_data)
 
 # 根据label_dict字典及滑动数据记录的材质，为每条滑动数据（小波变化处理后）添加形容词取值（标签）
-file = os.listdir("Data/wavedata12")
+file = os.listdir("./DataProcess/Data/wavedata12")
 materials = os.listdir(path)
 dataset = {}  # 按照每种材质的类别存储文件和标签的对应关系
 # 记录数据集中的每条滑动数据
@@ -50,10 +51,11 @@ for material in materials:  # 获取当前数据对应的材质
     data = [[] for _ in range(len(files))]
     for i, file in enumerate(files):
         data[i].append(file)  # 每行数据第一个元素为文件名
-        for k in label_dict[material]:  # 根据材质添加形容词取值情况
+        for k in label_dict.get(material, []):
+        # for k in label_dict[material]:  # 根据材质添加形容词取值情况
             data[i].append(k)
     dataset[material] = data
 print(dataset)  # 最终形式为 材质类别：数据文件名+对应的形容词标签
 
 save_data = np.array(dataset)
-np.save("Data/wavelabel12", save_data)
+np.save("./DataProcess/Data/wavelabel12", save_data)

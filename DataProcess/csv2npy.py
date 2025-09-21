@@ -3,7 +3,10 @@
 import os
 import csv
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib
+matplotlib.use('Agg')  
+import matplotlib.pyplot as plt
+
 
 
 def generate_data(name):
@@ -94,9 +97,9 @@ def generate_data(name):
 
     # np.save(name[:-4]+"_%s"%i,save_data)
     name = name.split('/')  # [., Data, tactiledata12, Aluminium, Aluminium_1.csv]
-    if not os.path.exists("./Data/npydata12/" + name[3]):
-        os.mkdir("./Data/npydata12/" + name[3])
-    np.save("./Data/npydata12/" + name[3] + '/' + name[4][:-4], save_data)
+    if not os.path.exists("./DataProcess/Data/npydata12/" + name[3]):
+        os.mkdir("./DataProcess/Data/npydata12/" + name[3])
+    np.save("./DataProcess/Data/npydata12/" + name[3] + '/' + name[4][:-4], save_data)
 
     # p_total随快划慢划（中间1000帧）的时间变化曲线
     # x = np.arange(0, 1000)
@@ -108,10 +111,10 @@ def generate_data(name):
 
 
 if __name__ == "__main__":
-    path = "./Data/tactiledata12"
+    path = "./DataProcess/Data/tactiledata12"
     materials = os.listdir(path)
-    if not os.path.exists("./Data/npydata12"):
-        os.mkdir("./Data/npydata12")
+    if not os.path.exists("./DataProcess/Data/npydata12"):
+        os.mkdir("./DataProcess/Data/npydata12")
     # print(names)
     for material in materials:
         material_path = path + '/' + material

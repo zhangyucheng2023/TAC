@@ -26,13 +26,19 @@ def SeenDivide(label_dict, train_ratio=0.8):  # label_dict材质与形容词的�
     # 1用于后续数据之间的串联，2对应四种数据采集状态，15为每组数据的维数，1000代表1000帧，24为形容词个数
     concated_data = np.zeros([1, 2, 15, 1000])
     concated_label = np.zeros([1, 24])
-    path = "./Data/npydata12"
+    path = "./DataProcess/Data/npydata12"
     materials = os.listdir(path)
     for material in materials:
-        label = label_dict[material]
+        # label = label_dict[material]
+        label = label_dict.get(material, np.zeros(24))
+        if label.size == 0:
+            print(f"Warning: Material '{material}' has an empty label.")
+            continue
+        
         label = np.expand_dims(label, 0)
         material_path = path + '/' + material
         files = os.listdir(material_path)
+        
         for file in files:
             # print(i)
             data = np.load(material_path + '/' + file)
@@ -53,10 +59,10 @@ def SeenDivide(label_dict, train_ratio=0.8):  # label_dict材质与形容词的�
     print(train_data.shape)
     print(test_data.shape)
     # 存储训练集和验证集
-    np.save("./Data/Dataset12/train_data.npy", train_data)
-    np.save("./Data/Dataset12/train_label.npy", train_label)
-    np.save("./Data/Dataset12/test_data.npy", test_data)
-    np.save("./Data/Dataset12/test_label.npy", test_label)
+    np.save("./DataProcess/Data/Dataset12/train_data.npy", train_data)
+    np.save("./DataProcess/Data/Dataset12/train_label.npy", train_label)
+    np.save("./DataProcess/Data/Dataset12/test_data.npy", test_data)
+    np.save("./DataProcess/Data/Dataset12/test_label.npy", test_label)
     
 
     # 划分小波变换后的触觉数据集
@@ -68,10 +74,15 @@ def SeenDivide(label_dict, train_ratio=0.8):  # label_dict材质与形容词的�
     # 1用于后续数据之间的串联，小波变换后，数据的维度为4*120*200
     concated_data = np.zeros([1, 4, 120, 200])
     concated_label = np.zeros([1, 24])
-    path = "./Data/wavedata12"  # 由于wavellabel12是由wavedata12生成的，因此可以保证数据和标签的对应关系
+    path = "./DataProcess/Data/wavedata12"  # 由于wavellabel12是由wavedata12生成的，因此可以保证数据和标签的对应关系
     materials = os.listdir(path)
     for material in materials:
-        label = label_dict[material]
+        # label = label_dict[material]
+        label = label_dict.get(material, None)  # 如果 material 不在 label_dict 中，则返回 None
+        if label is None:
+            print(f"Warning: Material '{material}' not found in label_dict.")
+            continue  # 或者根据需要处理这种情况
+
         label = np.expand_dims(label, 0)
         material_path = path + '/' + material
         files = os.listdir(material_path)
@@ -95,10 +106,10 @@ def SeenDivide(label_dict, train_ratio=0.8):  # label_dict材质与形容词的�
     print(train_data.shape)
     print(test_data.shape)
     # 存储训练集和验证集
-    np.save("./Data/WaveDataset12/train_data.npy", train_data)
-    np.save("./Data/WaveDataset12/train_label.npy", train_label)
-    np.save("./Data/WaveDataset12/test_data.npy", test_data)
-    np.save("./Data/WaveDataset12/test_label.npy", test_label)
+    np.save("./DataProcess/Data/WaveDataset12/train_data.npy", train_data)
+    np.save("./DataProcess/Data/WaveDataset12/train_label.npy", train_label)
+    np.save("./DataProcess/Data/WaveDataset12/test_data.npy", test_data)
+    np.save("./DataProcess/Data/WaveDataset12/test_label.npy", test_label)
 
 
 def UnseenDivide(label_dict, train_ratio=0.8):  # label_dict材质与形容词的对应关系，train_ratio训练集占比
@@ -208,7 +219,7 @@ def UnseenDivide(label_dict, train_ratio=0.8):  # label_dict材质与形容词�
 
 
 # 读取labels-test.csv文件
-f = open("Data/labels-test.csv", 'r', encoding='gbk')
+f = open("./DataProcess/Data/labels-test.csv", 'r', encoding='gbk')
 reader = csv.reader(f)
 data = []
 sample_num = 19  # 19种材质（光滑木板、胶合板等）

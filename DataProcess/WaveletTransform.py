@@ -45,7 +45,7 @@ def wavelet_concate(data):
             r = 2
         wave = get_wavelet(data[i], r)
         img_wave = Image.fromarray(wave)
-        out = img_wave.resize((200, 120), Image.ANTIALIAS)
+        out = img_wave.resize((200, 120), Image.Resampling.LANCZOS)
         out = np.array(out)
         c.append(out)
     combine_data = np.array([c[0], c[1], c[2], c[3]])
@@ -53,10 +53,10 @@ def wavelet_concate(data):
 
 
 if __name__ == "__main__":
-    path = "./Data/npydata12"
+    path = "./DataProcess/Data/npydata12"
     materials = os.listdir(path)
-    if not os.path.exists("./Data/wavedata12"):
-        os.mkdir("./Data/wavedata12")
+    if not os.path.exists("./DataProcess/Data/wavedata12"):
+        os.mkdir("./DataProcess/Data/wavedata12")
     for i, material in enumerate(materials):
         print(i, material)
         material_path = path + '/' + material
@@ -70,9 +70,9 @@ if __name__ == "__main__":
             wavegraph = wavelet_concate(c_data)
             # print(wavegraph.shape)
 
-            if not os.path.exists("./Data/wavedata12/" + material):
-                os.mkdir("./Data/wavedata12/" + material)
-            np.save("./Data/wavedata12/" + material + '/' + file, wavegraph)
+            if not os.path.exists("./DataProcess/Data/wavedata12/" + material):
+                os.makedirs("./DataProcess/Data/wavedata12/" + material)
+            np.save("./DataProcess/Data/wavedata12/" + material + '/' + file, wavegraph)
 
 # test=files[265]
 # Data=np.load("./0518augmentation/"+test)
