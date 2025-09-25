@@ -5,6 +5,7 @@
 import sys
 import numpy as np
 import torch
+import os
 from torch import nn
 import torch.utils.data as Data
 from thop import profile, clever_format
@@ -44,7 +45,7 @@ if choose == "1":
     INPUT_SIZE = (2, 15, 1000)
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/Dataset12/"
+    DATA_PATH = "./DataProcess/Data/Dataset12/"
     MODEL_PATH = "./Model/models/conv1D/"
 
 elif choose == "2":
@@ -58,7 +59,7 @@ elif choose == "2":
     INPUT_SIZE = (4, 120, 200)
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/WaveDataset12/"
+    DATA_PATH = "./DataProcess/Data/WaveDataset12/"
     MODEL_PATH = "./Model/models/conv2D/"
 
 elif choose == "3":
@@ -86,7 +87,7 @@ elif choose == "4":
     INPUT_SIZE = (2, 15, 1000)
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/Dataset12/"
+    DATA_PATH = "./DataProcess/Data/Dataset12/"
     MODEL_PATH = "./Model/models/LSTM_v1/"
 
 elif choose == "5":
@@ -100,7 +101,7 @@ elif choose == "5":
     INPUT_SIZE = (2, 15, 1000)
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/Dataset12/"
+    DATA_PATH = "./DataProcess/Data/Dataset12/"
     MODEL_PATH = "./Model/models/LSTM_v2/"
 
 elif choose == "6":
@@ -113,7 +114,7 @@ elif choose == "6":
     STEP_SIZE = NUM_EPOCHS / 3
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/Dataset12/"
+    DATA_PATH = "./DataProcess/Data/Dataset12/"
     MODEL_PATH = "./Model/models/AttentionLSTM_v1/"
 
 elif choose == "7":
@@ -126,7 +127,7 @@ elif choose == "7":
     STEP_SIZE = NUM_EPOCHS / 3
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/Dataset12/"
+    DATA_PATH = "./DataProcess/Data/Dataset12/"
     MODEL_PATH = "./Model/models/AttentionLSTM_v2/"
 
 elif choose == "8":
@@ -139,7 +140,7 @@ elif choose == "8":
     STEP_SIZE = NUM_EPOCHS / 3
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/Dataset12/"
+    DATA_PATH = "./DataProcess/Data/Dataset12/"
     MODEL_PATH = "./Model/models/Attentionconv1D/"
 
 elif choose == "9":
@@ -157,7 +158,7 @@ elif choose == "9":
     STEP_SIZE = NUM_EPOCHS / 3
 
     # 设置数据路径和保存模型路径
-    DATA_PATH = "./Data/Dataset12/"
+    DATA_PATH = "./DataProcess/Data/Dataset12/"
     MODEL_PATH = "./Model/models/Attention/"
 
 else:
@@ -276,7 +277,11 @@ for epoch in range(NUM_EPOCHS):
     # 每20个epoch保存一次模型
     if (epoch + 1) % 10 == 0:
         path = MODEL_PATH + "net_%s.pt" % (epoch + 1)
+        directory = os.path.dirname(path) # 确保目录存在
+        if not os.path.exists(directory):
+            os.makedirs(directory)
         torch.save(net.state_dict(), path)
+
     max_acc = max(max_acc, accuracy)
     if f1_score > max_f1:
         max_f1 = f1_score

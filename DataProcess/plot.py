@@ -144,11 +144,13 @@ def generate_data(name):
 
 if __name__ == "__main__":
     cnt = 0
-    path = "./Data/plot12"
+    path = "./DataProcess/Data/plot12"
+    print(os.getcwd())
     materials = os.listdir(path)
     # if not os.path.exists("./Data/npydata12"):
     #     os.mkdir("./Data/npydata12")
     # print(names)
+
     for material in materials:
         if cnt < 3:
             file_path = path + '/' + material  # "./Data/tactiledata12/Aluminium/Aluminium_1.csv"

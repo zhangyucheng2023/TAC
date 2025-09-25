@@ -14,7 +14,7 @@ Adjectives = ["absorbent", "bumpy", "compressible", "cool", "crinkly", "fuzzy", 
 
 class File_handler():
     def __init__(self, start_idx=0, end_idx=600, dataset_name='phac'):
-        self.filename = './Data/PHAC/phac_train_test_pos_neg_90_10_1_20.hdf'
+        self.filename = './DataProcess/Data/PHAC/phac_train_test_pos_neg_90_10_1_20.hdf'
         self.dict_ep = {'DISABLED': 1, 'OPEN_GRIPPER_MAX': 2, 'MOVE_ARM_START_POSITION': 3,
                         'MOVE_GRIPPER_FAST_CLOSE': 4, 'OPEN_GRIPPER_BY_2CM_FAST': 5,
                         'FIND_CONTACT_CLOSE_GRIPPER_SLO': 6, 'SQUEEZE_SET_PRESSURE_SLOW': 7,
